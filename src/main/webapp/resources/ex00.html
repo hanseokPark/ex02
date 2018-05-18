@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="handlebars-v4.0.10.js"></script>
+</head>
+<body>
+	<div id="test"></div>
+	
+	<script>
+		var source = "<h1>{{title}}</h1><p>{{name}}</p>";
+		var data = {title:"제목입니다.", name:"홍길동"};
+		var template = Handlebars.compile(source); //return 함수
+		
+		$("#test").html( template(data) ); //우리가 원하는 답을 넘겨줌
+	</script>
+	
+	<div id="test2"></div>
+	
+	<script>
+		var s2 = "<h1>{{name}}</h1><div>{{name2}}</div><p>{{name3}}</p>"
+		var d2 = {name:"홍길동1", name2:"홍길동2", name3:"홍길동3"}
+	
+		var tFunc = Handlebars.compile(s2);
+		var str = tFunc(d2);
+		console.log(str);
+		$("#test2").html(str);
+	</script>
+</body>
+</html>
