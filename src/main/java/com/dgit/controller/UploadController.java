@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dgit.util.MediaUtils;
+import com.dgit.util.UploadFileUtils;
 
 @Controller
 public class UploadController {
@@ -251,17 +252,56 @@ public class UploadController {
 		logger.info("writer : " + writer);
 		logger.info("file : " + file.getOriginalFilename());
 		
-		UUID uid = UUID.randomUUID(); //중복되지 않는 고유한 키값을 설정할 때 사용
+		/*UUID uid = UUID.randomUUID(); //중복되지 않는 고유한 키값을 설정할 때 사용
 		String savedName = uid.toString() + "_" + file.getOriginalFilename();
 		File target = new File(outerUploadPath + "/" + savedName);
-		FileCopyUtils.copy(file.getBytes(), target);
+		FileCopyUtils.copy(file.getBytes(), target);*/
+		
+		String filePath = UploadFileUtils.uploadFile(outerUploadPath, file.getOriginalFilename(), file.getBytes());
 		
 		
 		model.addAttribute("writer", writer);
-		model.addAttribute("file", savedName);
+		model.addAttribute("file", filePath);
 		
 		return "previewResult";
 	}
+	
+	
+	
+	@RequestMapping(value="deleteFile", method=RequestMethod.GET)
+	public String deleteFile(String filename){
+		logger.info(filename);
+	/*	//인터넷에서 찾은 코드
+		//원본 , 썸네일 2가지 삭제
+		String formatName = filename.substring(filename.lastIndexOf(".")+1);
+		
+		logger.info(formatName);
+		
+		MediaType mType = MediaUtils.getMediaType(formatName);
+		
+		//원본 삭제
+		if(mType != null){
+			String folderPath = filename.substring(0, 12); // /년/월/일/  추출
+			String orgName = filename.substring(12 + "s_".length());
+			File orgImgFile = new File(outerUploadPath + (folderPath + orgName));
+			orgImgFile.delete();
+		}
+		
+		//썸네일 삭제
+		File orgFile = new File(outerUploadPath + filename);
+		orgFile.delete();
+		
+		ResponseEntity<String> entity = new ResponseEntity<String>("deleted", HttpStatus.OK);
+		*/
+		
+		
+		UploadFileUtils.deleteFile(outerUploadPath, filename);
+		
+		return "";
+	}
+	
+	
+	
 }
 
 
