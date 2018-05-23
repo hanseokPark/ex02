@@ -207,8 +207,8 @@ public class UploadController {
 			for(MultipartFile file : files){
 				logger.info("file : " + file.getOriginalFilename());
 				
-				UUID uid = UUID.randomUUID(); //중복되지 않는 고유한 키값을 설정할 때 사용
-				String savedName = uid.toString() + "_" + file.getOriginalFilename();
+					UUID uid = UUID.randomUUID(); //중복되지 않는 고유한 키값을 설정할 때 사용
+					String savedName = uid.toString() + "_" + file.getOriginalFilename();
 					File target = new File(outerUploadPath + "/" + savedName);
 					FileCopyUtils.copy(file.getBytes(), target);
 					list.add(savedName);
